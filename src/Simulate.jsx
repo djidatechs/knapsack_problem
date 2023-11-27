@@ -123,6 +123,7 @@ function Simulate({capacity , items}) {
                 }
                 setSelectedItems(selectedItems__)
 
+              console.log(dp)
               return dp[n][capacity];
           }
           let mx = await knapsack()
@@ -196,17 +197,20 @@ const BuildTable = ({dp,capacity,items})=> (
     <div className="overflow-x-auto mt-2">
     <table className="table bg-slate-900 text ">
         <thead>
-            
                 {
                     capacity && <StupidThHolder  capacity={capacity}/>
                 }
         </thead>
         <tbody>
+            <tr>
+                <td></td>
+            {dp && dp[0]?.length && dp[0].map(clm => <td>{clm}</td>  )}
+            </tr>
                 {
                     items.map((item,index)=>(
                     <tr>
                         <td>{item.name}</td>
-                        {dp && dp[index]?.length && dp[index].map(clm => <td>{clm}</td>  )}
+                        {dp && dp[index+1]?.length && dp[index+1].map(clm => <td>{clm}</td>  )}
                     </tr>))
                 }
         </tbody>
