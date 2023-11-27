@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Code from './code';
+import Code from './Code';
 
 function Simulate({capacity , items}) {
     const [maxValue, setMaxValue] = useState("??");
