@@ -1,4 +1,4 @@
-import { GetData } from "./GetData"
+import { Knapsack } from "./Knapsack"
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
                 </div>
             </div>
 
-              <GetData/>
+              <Knapsack/>
           </div>
         </div>
       </div>

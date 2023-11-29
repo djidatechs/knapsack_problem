@@ -3,12 +3,14 @@ import Code from './Code';
 
 function Simulate({capacity , items}) {
     const [maxValue, setMaxValue] = useState("??");
-    const bysteps = useRef(0);
-    const autostep = useRef(false);
-    const speed = useRef(500);
     const [build , load] = useState([]);
     const  [selectedItems,setSelectedItems] = useState([]);
+    const colorCase = useRef({i:null,j:null});
+
+    const bysteps = useRef(0);
+    const autostep = useRef(false);
     const step_button = useRef(null);
+    const speed = useRef(500);
 
     function waitForClick() {
         return new Promise((resolve) => {
@@ -94,6 +96,7 @@ function Simulate({capacity , items}) {
           async function  knapsack() {
               for (let i = 1; i <= n; i++) {
               for (let j = 1; j <= capacity; j++) {
+                colorCase.current = {i,j};
                   if (items[i - 1].weight > j) {
                   dp[i][j] = dp[i - 1][j];
                   //enter_if 
@@ -105,6 +108,7 @@ function Simulate({capacity , items}) {
                   await enter_else()
                   load([...dp])
                   }
+                  
               }
               }
 
@@ -151,7 +155,7 @@ function Simulate({capacity , items}) {
                 <div className='space-x-4 p-2 border-none max-w-md'>
                      
                 </div>
-                <BuildTable dp={build} capacity={capacity} items={items}  />
+                <BuildTable dp={build} capacity={capacity} items={items} color_i={colorCase.current.i} color_j={colorCase.current.j}  />
             </div>
         </div>
         <div className='w-5/12 h-[calc(100vh-96px)] pt-3 px-10 '>
@@ -192,13 +196,13 @@ function Simulate({capacity , items}) {
 export default Simulate;
 
 
-const BuildTable = ({dp,capacity,items})=> (
+const BuildTable = ({dp,capacity,items,color_i,color_j})=> (
 
     <div className="overflow-x-auto mt-2">
-    <table className="table bg-slate-900 text ">
+    <table className="table bg-slate-900 text-[16px] ">
         <thead>
                 {
-                    capacity && <StupidThHolder  capacity={capacity}/>
+                    <StupidThHolder  capacity={capacity}/>
                 }
         </thead>
         <tbody>
@@ -210,7 +214,7 @@ const BuildTable = ({dp,capacity,items})=> (
                     items.map((item,index)=>(
                     <tr>
                         <td>{item.name}</td>
-                        {dp && dp[index+1]?.length && dp[index+1].map(clm => <td>{clm}</td>  )}
+                        {dp && dp[index+1]?.length && dp[index+1].map((clm,dp_index) => <td className={color_i===index+1&&color_j===dp_index?" bg-green-500 ":undefined}>{clm}</td>  )}
                     </tr>))
                 }
         </tbody>

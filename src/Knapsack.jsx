@@ -1,15 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FillData from './FillData';
 import Simulate from './Simulate';
-const default_capacity = 8;
-const default_items = 3
-export function GetData(props) {
+const default_capacity = 13;
+export function Knapsack(props) {
     const [capacity, setCapacity] = useState(default_capacity);
     const [items , setItems] = useState([])
-    const [idcount , setIdcount] = useState(1);
-    const [buildTable, setBuildTable] = useState(createMatrix(default_items,default_capacity,0));
-
     const [operation,setOperation] = useState(false);
+    const idcount = useRef(0);
    
 
     return (
@@ -22,7 +19,7 @@ export function GetData(props) {
         <div className='flex'>
             {
                 !operation 
-                ? <FillData  idcount={idcount} setIdcount={setIdcount} capacity={capacity} items={items} setCapacity={setCapacity} setItems={setItems}  />
+                ? <FillData  idcount={idcount} capacity={capacity} items={items} setCapacity={setCapacity} setItems={setItems}  />
                 : <Simulate capacity={capacity} items={items}/> 
             } 
             

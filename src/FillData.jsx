@@ -1,24 +1,22 @@
-import React, { useEffect, useRef } from 'react';
-const default_items = 3
-function FillData({capacity,items,setCapacity , setItems,idcount,setIdcount}) {
+import React from 'react';
+function FillData({capacity,items,setCapacity , setItems,idcount}) {
     const inc = () =>{
-        setIdcount(c=>c+1)
-        return idcount;
+        idcount.current ++ ; 
+        return idcount.current;
     }
-    const addItem = () => setItems(
+    const addItem = (v=10,w=5) => setItems(
         current=>[
             ...current,
             {
                 name :"Item "+ inc(),
-                value : 10 , 
-                weight : 5 ,
+                value : v , 
+                weight : w ,
             }]
     )
     const deleteItem = (indexToRemove) => setItems(
         current => current.filter((_, index) => index !== indexToRemove)
     )
     const updateItem = (new_item_props, index)=> 
-        
         setItems (
             current=>{
                 const Item = current[index]
@@ -26,18 +24,19 @@ function FillData({capacity,items,setCapacity , setItems,idcount,setIdcount}) {
                 current[index] = Item
                 return [...current];
             }
-        )
+        );
 
-    
-    
-        // useEffect(()=>{
-        //     for (let i = 0 ; i < default_items ; i++) addItem();
-        // },[])
-
-
+        const generateRandomItems = (N) => {
+            const max = 15, min=5;
+            for (let i = 0; i < N; i++) {
+              const randomValue = Math.floor(Math.random() * ((max*2) - min + 1)) + min;
+              const randomWeight = Math.floor(Math.random() * (max - min + 1)) + min;
+              addItem(randomValue, randomWeight);
+            }
+          };
     return (
         <div className='w-full flex justify-center'>
-        <div className='w-full md:w-[70%] lg:w-[50%] h-[calc(100vh-120px)] pt-3 md:p-10 '>
+        <div className='w-full md:w-[80%] lg:w-[70%] h-[calc(100vh-120px)] pt-3 md:p-10 '>
                 <h1 className='w-full text-center'>Filling Data</h1>
                 <div className='h-full overflow-auto'>
                     <div className='space-x-4 p-2 border-none max-w-md'>
@@ -61,7 +60,7 @@ function FillData({capacity,items,setCapacity , setItems,idcount,setIdcount}) {
                                 {
                                     items.map((item,index) => (
                                         <tr className='text-lg' key={index}>
-                                        <th>{index}</th>
+                                        <th>{index+1}</th>
                                         <td>
                                             <input
                                             className='w-20'
@@ -94,8 +93,11 @@ function FillData({capacity,items,setCapacity , setItems,idcount,setIdcount}) {
                             <tfoot>
                                 <tr>
                                     <td 
-                                    onClick={addItem}
-                                    colSpan={5} className='cursor-pointer bg-success text-white font-semibold text-center text-xl hover:bg-slate-600 transform duration-200'>+ add Item</td>
+                                    onClick={()=>addItem()}
+                                    colSpan={2} className='cursor-pointer bg-success text-white font-semibold text-center text-xl hover:bg-slate-600 transform duration-200'>+ add one Item</td>
+                                    <td 
+                                    onClick={()=>generateRandomItems(parseInt(document.getElementById("items_num")?.value)||1 )}
+                                    colSpan={3} className='cursor-pointer bg-green-600 text-white font-semibold text-center text-xl hover:bg-slate-600 transform duration-200'>Make <input id='items_num' className='bg-white text-black max-w-[30px] text-center' onClick={(e)=>e.stopPropagation()} defaultValue={"10"}/> Items</td>
                                 </tr>
                             </tfoot>
                         </table>
