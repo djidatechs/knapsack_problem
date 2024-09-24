@@ -13,8 +13,8 @@ export function Knapsack(props) {
         <>
         <label className="swap swap-rotate w-full text-center text-xl font-bold">
         <input type="checkbox" onClick={()=>setOperation(c=>!c)} />
-        <div className="swap-on fill-current">Operation</div>
-        <div className="swap-off fill-current">Data</div>
+        <div className="swap-on fill-current">Click to return</div>
+        <div className="swap-off fill-current">Click to go to operation after filling data</div>
         </label>
         <div className='flex'>
             {
